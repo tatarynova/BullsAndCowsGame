@@ -1,34 +1,3 @@
-
-# TEST CASES:
-# 1
-# Creating data sets for each level of difficulty. Main task is to create 3,4,5-digit numbers, where non of digits are reapeted inside the number itself.
-# EASY:
-# Should contain 720 possible combinations of 3-digit numbers.
-# if difficulty=="easy":
-# print(len(get_all_answers_3()))
-# NORMAL:
-# Should contain 5040 possible combinations of 4-digit numbers.
-# elif difficulty=="normal":
-# print(len(get_all_answers_4()))
-# HARD:
-# Should contain 30240 possible combinations of 5-digit numbers.
-# elif difficulty=="hard":
-# print(len(get_all_answers_5()))
-# 2
-# ORIGINAL CODE: num_str = ''.join(map(str, enemy_normal))
-# PROBLEM: SyntaxError: f-string: unmatched '('
-# DEBBUGGING: breaking down the code:
-# num_str = ''.join(map(str, enemy_easy))  # First convert to string
-# num = int(num_str)  # Then convert to integer
-# print(f"The number was: {num}")  # Finally print
-
-
-# CITATION:
-# [1] zfill string method: https://www.w3schools.com/python/ref_string_zfill.asp
-# [2] map function: https://www.w3schools.com/python/ref_func_map.asp ; https://youtu.be/8q2vICb89ys?si=r9BgBO-Wenoe0h6p
-# [3] enumerate function: https://www.w3schools.com/python/ref_func_enumerate.asp
-
-
 import random
 import time
 
@@ -37,7 +6,7 @@ import time
 levels_dict = {"easy": 3, "normal": 4, "hard": 5}
 
 #ANSWER GENERATORS:
-def get_all_answers(digits):
+def get_computers_answer(digits):
     """Creates the list of all the possible answers depending on a difficulty level chosen
     Easy == 720 unique combinations
     Normal == 5040 unique combinations
@@ -47,51 +16,13 @@ def get_all_answers(digits):
         tmp = str(i).zfill(digits)
         if len(set(map(int, tmp))) == digits:
             ans.append(list(map(int, tmp)))
-    return ans
-
-def get_level_answers(levels_dict, difficulty):
-    """"Creates particular list of answers depending on the level chosen by the player"""
-    answers_list = []
-    if difficulty == "easy":
-        get_all_answers(levels_dict["easy"])
-    elif difficulty == "normal":
-        get_all_answers(levels_dict["normal"])
-    elif difficulty == "hard":
-        get_all_answers(levels_dict["hard"])
-    else:
-        print("The difficulty is not valid.")
-        return
-    return answers_list
-
-#RANDOMLY CHOOSING ONE NUMBER TO BE GUESSED
-def get_one_answer(list):
-    """Chooses one answer from the list of all possibilities created in get_level_answers functions."""
-    num = random.choice(list)
-    return num
-# NORMAL LEVEL OF DIFFICULTY:
-# def get_all_answers_4():
-#     """Creates the list of all the possible answers"""
-#     ans = []
-#     # Will create 9999 numbers and delete ones that contain reapeted digits inside them.
-#     for i in range(10000):
-#         tmp = str(i).zfill(4) #[1]
-#         if len(set(map(int, tmp))) == 4: # [2]
-#             ans.append(list(map(int, tmp)))
-#     return ans
-
-
-# answers_easy = get_all_answers_3()    # all the possible answers for easy level
-# answers_normal = get_all_answers_4()    # all the possible answers for normal level
-# answers_hard = get_all_answers_5()  # all the possible answers for hard level
-# player = input_number()     #he number guessed by player
-# enemy_easy = get_one_answer(answers_easy)     # the number randomised by program on easy level
-# enemy_normal = get_one_answer(answers_normal)   # the number randomised by program on normal level
-# enemy_hard = get_one_answer(answers_hard)   # the number randomised by program on hard level
+    random_num = random.choice(ans)
+    return random_num
 
 #TAKE AND CHECK USER'S GUESSES
 def input_number(digits):
     """Communicates with the user and gets the answer (user's guesses).
-    Digits inside the number should not repeat themself, otherwise the program will ask for a new guess."""
+    Digits inside the number should not repeat themselves, otherwise the program will ask for a new guess."""
     while True:
         nums = input(f"Enter a number with {digits} different digits:")
         if len(nums) != digits or not all(c in "0123456789" for c in nums):
@@ -102,72 +33,35 @@ def input_number(digits):
             break
     return nums
 
-
-# EASY LEVEL OF DIFFICULTY:
-# def get_all_answers_3():
-#     """Creates the list of all the possible answers"""
-#     ans = []
-# # Will create 999 numbers and delete ones that contain reapeted digits inside them.
-#     for i in range(1000):
-#         tmp = str(i).zfill(3)
-#         if len(set(map(int, tmp))) == 3:
-#             ans.append(list(map(int, tmp)))
-#     return ans
-
-# def input_number_easy():
-#     """Communicates with the user and gets the answer (user's guesses) of 3-digit number.
-#     Digits inside the number should not repeat themself, otherwise the program will ask for a new guess."""
-#     while True:
-#         nums = input('Enter a number with 3 different digits:')
-#         if len(nums) != 3 or not nums.isdigit():
-#             print('The number is not valid.')
-#             continue
-#         nums = list(map(int, nums))
-#         if len(set(nums)) == 3:
-#             break
-#     return nums
-
-# HARD LEVEL OF DIFFICULTY:
-# def get_all_answers_5():
-#     """Creates the list of all the possible answers"""
-#     ans = []
-# # Will create 99999 numbers and delete ones that contain reapeted digits inside them.
-#     for i in range(100000):
-#         tmp = str(i).zfill(5)
-#         if len(set(map(int, tmp))) == 5:
-#             ans.append(list(map(int, tmp)))
-#     return ans
-
-# def input_number_hard():
-#     """Communicates with the user and gets the answer (user's guesses) of 5-digit number.
-#     Digits inside the number should not repeat themself, otherwise the program will ask for a new guess."""
-#     while True:
-#         nums = input('Enter a number with 5 different digits:')
-#         if len(nums) != 5 or not nums.isdigit():
-#             print('The number is not valid.')
-#             continue
-#         nums = list(map(int, nums))
-#         if len(set(nums)) == 5:
-#             break
-#     return nums
-
-# OTHER FUNCTIONS:
-# def get_one_answer(ans):
-#     """Chooses one answer from the list of all possibilities created in get_all_answers functions."""
-#     num = random.choice(ans)
-#     return num
-
 def check(nums, true_nums):
-    """Compares two number and tells the user the amount of bulls and cows they have scored."""
+    """Compares two number and return the amount of bulls and cows the user have scored."""
     bulls, cows = 0, 0
     for i, num in enumerate(nums): #[3]
         if num in true_nums:
-            if nums[i] == true_nums[i]:
+            if num == true_nums[i]:
                 bulls +=1
             else:
                 cows +=1
     return bulls, cows
 
+def print_scoring(bulls, cows, digits, score):
+    """Takes the amount of bulls and cows
+    Returns: the game status (won either true or false), a table with amount of bulls and cows overall"""
+    is_won = False
+    if bulls == digits:
+        is_won = True
+        print('You won!')
+        print(f"The number was: {''.join(map(str, computer_number))}")
+        print(f"Your score is: {score}")
+    print(f"Good guess, {user_name}! Your score is shown bellow:")
+    print("+-------+-----+------+")
+    print("| Guess |Bulls| Cows |")
+    print("+-------+-----+------+")
+    print(f"|  {''.join(map(str, number))}  |  {bulls}  |   {cows}  |")
+    print("+-------+-----+------+")
+    return is_won
+
+# THIS IS NOT USED FOR MOW
 def del_bad_answers(ans, enemy_try, bull, cow):
     """Deletes all the wrong answers from the list of all possible ones."""
     for num in ans[:]:
@@ -186,7 +80,7 @@ def display_rules():
     time.sleep(1)
     print("- 🐂 Bull = score +2. Corresponds to correct digit in the correct place.")
     print("- 🐄 Cow = score +1. Corresponds to correct digit but wrong place.")
-    time.sleep(2)
+    time.sleep(1)
     print('='*13, "Difficulty Levels:", '='*12)
     print('+', '-'*10, '+', '-'*58, '+' )
     print('|', ' ', "Level", ' '*2, '|' " Description", ' '*46, '|')
@@ -220,7 +114,7 @@ user_name = user_name.title()
 
 # displaying of rules (optional)
 while True:
-    user_experience=input(f"Hello, {user_name}, are you familliar with the rules of 'Bulls and Cows'? Please, answer 'yes' or 'no': \n")
+    user_experience=input(f"Hello, {user_name}, are you familiar with the rules of 'Bulls and Cows'? Please, answer 'yes' or 'no': \n")
 # aim is to make rule explanation optional in case the user has already played this game before
     user_experience = user_experience.lower()
     if user_experience not in ("yes", "no"):
@@ -240,102 +134,27 @@ difficulty = difficulty.lower()
 while difficulty.lower()!='easy' and difficulty.lower()!='normal' and difficulty.lower()!='hard':
     print("Invalid option.")
     difficulty = input(f"Enter the difficulty level you fancy to play: ")
+    difficulty = difficulty.lower()
 if difficulty=="easy":
     print(f"Great choice, {user_name}! You're playing simplified version of 'Bulls and Cows'. The secret number will be 3-digits    long.")
 elif difficulty=="normal":
     print(f"Great choice, {user_name}! You're playing the classical version of 'Bulls and Cows'. The secret number will be 4-digits long.")
 elif difficulty=="hard":
-    print(f"Great choice, {user_name}! You're playing more complicated persion of classic 'Bulls and Cows'. The secret number will be 5-digits long.")
+    print(f"Great choice, {user_name}! You're playing more complicated version of classic 'Bulls and Cows'. The secret number will be 5-digits long.")
 time.sleep(1)
 print("Let's get started.")
 time.sleep(1)
 
 # THE GAME ITSELF
-score=0
-computer_number = get_one_answer(get_level_answers(difficulty))
+computer_number = get_computers_answer(levels_dict[difficulty])
+score = 0
 while True:
-    if difficulty=="easy":
-        user_name=user_name.upper()
-        print(f"{'='*20}{user_name}'s Turn{'='*20}")
-        time.sleep(1)
-        print("Guess a number generated by the computer!")
-        time.sleep(1)
-        number = input_number(levels_dict[difficulty])
-        bulls, cows = check(number, computer_number)
-
-# printing score table
-        if bulls!=0:
-            score+=2
-        elif cows!=0:
-            score+=1
-        print(f"Good guess, {user_name}! Your score is shown bellow:")
-        print("+-------+-----+------+")
-        print("| Guess |Bulls| Cows |")
-        print("+-------+-----+------+")
-        print(f"|  {int(''.join(map(str, number)))}  |  {bulls}  |   {cows}  |")
-        print("+-------+-----+------+")
-        if bulls==3:
-            print('You won!')
-# TEST-CASE #2
-# print(f"The number was: {int(''.join(map(str, enemy_easy)))}")
-            num_str = ''.join(map(str, enemy_easy))
-            num = int(num_str)
-            print(f"The number was: {num}")
-            print(f'Your score is: {score}.')
-            break
-    if difficulty=="normal":
-        print(f"{'='*15}{user_name}'s Turn{'='*15}")
-        time.sleep(2)
-        print("Guess a number generated by the computer.")
-        time.sleep(1)
-        number = input_number_normal()
-        bulls, cows = check(number, enemy_normal)
-# print(f"Good guess, {user_name}! You have {bulls} bulls and {cows} cows.")
-# printing score table
-        if bulls!=0:
-            score+=2
-        elif cows!=0:
-            score+=1
-        print(f"Good guess, {user_name}! Your score is shown bellow:")
-        print("+-------+-----+------+")
-        print("| Guess |Bulls| Cows |")
-        print("+-------+-----+------+")
-        print(f"|  {int(''.join(map(str, number)))} |  {bulls}  |   {cows}  |")
-        print("+-------+-----+------+")
-        if bulls==4:
-            print('You won!')
-# TEST-CASE #2:
-# print(f'The number was: {int(''.join(map(str, enemy_normal)))}') 
-            num_str = ''.join(map(str, enemy_normal))
-            num = int(num_str)
-            print(f"The number was: {num}") 
-            print(f'Your score is: {score}.')
-            break
-    if difficulty=="hard":
-        print(f"{'='*15}{user_name}'s Turn{'='*15}")
-        time.sleep(2)
-        print("Guess a number generated by the computer.")
-        time.sleep(1)
-        number = input_number_hard()
-        bulls, cows = check(number, enemy_hard)
-# print(f"Good guess, {user_name}! You have {bulls} bulls and {cows} cows.")
-# printing score table
-        if bulls!=0:
-            score+=2
-        elif cows!=0:
-            score+=1
-        print(f"Good guess, {user_name}! Your score is shown bellow:")
-        print("+-------+-----+------+")
-        print("| Guess |Bulls| Cows |")
-        print("+-------+-----+------+")
-        print(f"| {int(''.join(map(str, number)))} |  {bulls}  |   {cows}  |")
-        print("+-------+-----+------+")
-        if bulls==5:
-            print('You won!')
-# TEST-CASE #2
-# print(f'The number was: {int(''.join(map(str, enemy_hard)))}')
-            num_str = ''.join(map(str, enemy_hard))
-            num = int(num_str)
-            print(f"The number was: {num}")
-            print(f'Your score is: {score}.')
-            break
+    user_name = user_name.title()
+    print(f"{'=' * 20}{user_name}'s Turn{'=' * 20}")
+    print("Guess a number generated by the computer!")
+    number = input_number(levels_dict[difficulty])
+    bulls, cows = check(number, computer_number)
+    score += bulls*2 + cows
+    result=print_scoring(bulls, cows, levels_dict[difficulty], score)
+    if result is True:
+        break
