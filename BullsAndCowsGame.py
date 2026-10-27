@@ -193,21 +193,25 @@ while True:
         break
 
 # difficulty decision-making
-while difficulty.lower() != 'easy' and difficulty.lower() != 'normal' and difficulty.lower != 'hard':
-    print("Please, choose the difficulty level out of suggested:")
-    time.sleep(1)
+while True:
     display_levels()
-    time.sleep(2)
-    difficulty.lower()=input(f"Enter the difficulty level you fancy to play:")
+    time.sleep(1)
+    difficulty = input(f"Enter the difficulty level you fancy to play: ")
+    difficulty = difficulty.lower()
+    while difficulty.lower()!='easy' and difficulty.lower()!='normal' and difficulty.lower()!='hard':
+        print("Invalid option.")
+        difficulty = input(f"Enter the difficulty level you fancy to play: ")
+        difficulty = difficulty.lower()
     if difficulty=="easy":
         print(f"Great choice, {user_name}! You're playing simplified version of 'Bulls and Cows'. The secret number will be 3-digits    long.")
     elif difficulty=="normal":
         print(f"Great choice, {user_name}! You're playing the classical version of 'Bulls and Cows'. The secret number will be 4-digits long.")
     elif difficulty=="hard":
         print(f"Great choice, {user_name}! You're playing more complicated persion of classic 'Bulls and Cows'. The secret number will be 5-digits long.")
-    time.sleep(2)
+    time.sleep(1)
     print("Let's get started.")
-    time.sleep(2)
+    time.sleep(1)
+    break
 
 # THE GAME ITSELF
 score=0
