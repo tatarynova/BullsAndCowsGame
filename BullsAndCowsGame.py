@@ -31,17 +31,32 @@
 
 import random
 import time
+#LEVEL DICTIONARY
+levels_dict = {"easy": 3, "normal": 4, "hard": 5}
 
-# NORMAL LEVEL OF DIFFICULTY:
-def get_all_answers_4():
-    """Creates the list of all the possible answers"""
+#ANSWER GENERATOR:
+def get_all_answers(digits):
+    """Creates the list of all the possible answers depending on a difficulty level chosen
+    Easy == 720 unique combinations
+    Normal == 5040 unique combinations
+    Hard == 30240 unique combinations"""
     ans = []
-# Will create 9999 numbers and delete ones that contain reapeted digits inside them.
-    for i in range(10000):
-        tmp = str(i).zfill(4) #[1]
-        if len(set(map(int, tmp))) == 4: # [2]
+    for i in range(10**digits):
+        tmp = str(i).zfill(digits)
+        if len(set(map(int, tmp))) == digits:
             ans.append(list(map(int, tmp)))
     return ans
+
+# NORMAL LEVEL OF DIFFICULTY:
+# def get_all_answers_4():
+#     """Creates the list of all the possible answers"""
+#     ans = []
+#     # Will create 9999 numbers and delete ones that contain reapeted digits inside them.
+#     for i in range(10000):
+#         tmp = str(i).zfill(4) #[1]
+#         if len(set(map(int, tmp))) == 4: # [2]
+#             ans.append(list(map(int, tmp)))
+#     return ans
 
 def input_number_normal():
     """Communicates with the user and gets the answer (user's guesses) of 4-digit number.
@@ -58,15 +73,15 @@ def input_number_normal():
 
 
 # EASY LEVEL OF DIFFICULTY:
-def get_all_answers_3():
-    """Creates the list of all the possible answers"""
-    ans = []
-# Will create 999 numbers and delete ones that contain reapeted digits inside them.
-    for i in range(1000): 
-        tmp = str(i).zfill(3)
-        if len(set(map(int, tmp))) == 3:
-            ans.append(list(map(int, tmp)))
-    return ans
+# def get_all_answers_3():
+#     """Creates the list of all the possible answers"""
+#     ans = []
+# # Will create 999 numbers and delete ones that contain reapeted digits inside them.
+#     for i in range(1000):
+#         tmp = str(i).zfill(3)
+#         if len(set(map(int, tmp))) == 3:
+#             ans.append(list(map(int, tmp)))
+#     return ans
 
 def input_number_easy():
     """Communicates with the user and gets the answer (user's guesses) of 3-digit number.
@@ -82,15 +97,15 @@ def input_number_easy():
     return nums
 
 # HARD LEVEL OF DIFFICULTY:
-def get_all_answers_5():
-    """Creates the list of all the possible answers"""
-    ans = []
-# Will create 99999 numbers and delete ones that contain reapeted digits inside them.
-    for i in range(100000):
-        tmp = str(i).zfill(5)
-        if len(set(map(int, tmp))) == 5:
-            ans.append(list(map(int, tmp)))
-    return ans
+# def get_all_answers_5():
+#     """Creates the list of all the possible answers"""
+#     ans = []
+# # Will create 99999 numbers and delete ones that contain reapeted digits inside them.
+#     for i in range(100000):
+#         tmp = str(i).zfill(5)
+#         if len(set(map(int, tmp))) == 5:
+#             ans.append(list(map(int, tmp)))
+#     return ans
 
 def input_number_hard():
     """Communicates with the user and gets the answer (user's guesses) of 5-digit number.
@@ -193,25 +208,22 @@ while True:
         break
 
 # difficulty decision-making
-while True:
-    display_levels()
-    time.sleep(1)
+display_levels()
+time.sleep(1)
+difficulty = input(f"Enter the difficulty level you fancy to play: ")
+difficulty = difficulty.lower()
+while difficulty.lower()!='easy' and difficulty.lower()!='normal' and difficulty.lower()!='hard':
+    print("Invalid option.")
     difficulty = input(f"Enter the difficulty level you fancy to play: ")
-    difficulty = difficulty.lower()
-    while difficulty.lower()!='easy' and difficulty.lower()!='normal' and difficulty.lower()!='hard':
-        print("Invalid option.")
-        difficulty = input(f"Enter the difficulty level you fancy to play: ")
-        difficulty = difficulty.lower()
-    if difficulty=="easy":
-        print(f"Great choice, {user_name}! You're playing simplified version of 'Bulls and Cows'. The secret number will be 3-digits    long.")
-    elif difficulty=="normal":
-        print(f"Great choice, {user_name}! You're playing the classical version of 'Bulls and Cows'. The secret number will be 4-digits long.")
-    elif difficulty=="hard":
-        print(f"Great choice, {user_name}! You're playing more complicated persion of classic 'Bulls and Cows'. The secret number will be 5-digits long.")
-    time.sleep(1)
-    print("Let's get started.")
-    time.sleep(1)
-    break
+if difficulty=="easy":
+    print(f"Great choice, {user_name}! You're playing simplified version of 'Bulls and Cows'. The secret number will be 3-digits    long.")
+elif difficulty=="normal":
+    print(f"Great choice, {user_name}! You're playing the classical version of 'Bulls and Cows'. The secret number will be 4-digits long.")
+elif difficulty=="hard":
+    print(f"Great choice, {user_name}! You're playing more complicated persion of classic 'Bulls and Cows'. The secret number will be 5-digits long.")
+time.sleep(1)
+print("Let's get started.")
+time.sleep(1)
 
 # THE GAME ITSELF
 score=0
