@@ -31,10 +31,12 @@
 
 import random
 import time
+
+#FUNCTIONS
 #LEVEL DICTIONARY
 levels_dict = {"easy": 3, "normal": 4, "hard": 5}
 
-#ANSWER GENERATOR:
+#ANSWER GENERATORS:
 def get_all_answers(digits):
     """Creates the list of all the possible answers depending on a difficulty level chosen
     Easy == 720 unique combinations
@@ -47,6 +49,25 @@ def get_all_answers(digits):
             ans.append(list(map(int, tmp)))
     return ans
 
+def get_level_answers(levels_dict, difficulty):
+    """"Creates particular list of answers depending on the level chosen by the player"""
+    answers_list = []
+    if difficulty == "easy":
+        get_all_answers(levels_dict["easy"])
+    elif difficulty == "normal":
+        get_all_answers(levels_dict["normal"])
+    elif difficulty == "hard":
+        get_all_answers(levels_dict["hard"])
+    else:
+        print("The difficulty is not valid.")
+        return
+    return answers_list
+
+#RANDOMLY CHOOSING ONE NUMBER TO BE GUESSED
+def get_one_answer(list):
+    """Chooses one answer from the list of all possibilities created in get_level_answers functions."""
+    num = random.choice(list)
+    return num
 # NORMAL LEVEL OF DIFFICULTY:
 # def get_all_answers_4():
 #     """Creates the list of all the possible answers"""
@@ -58,16 +79,26 @@ def get_all_answers(digits):
 #             ans.append(list(map(int, tmp)))
 #     return ans
 
-def input_number_normal():
-    """Communicates with the user and gets the answer (user's guesses) of 4-digit number.
+
+# answers_easy = get_all_answers_3()    # all the possible answers for easy level
+# answers_normal = get_all_answers_4()    # all the possible answers for normal level
+# answers_hard = get_all_answers_5()  # all the possible answers for hard level
+# player = input_number()     #he number guessed by player
+# enemy_easy = get_one_answer(answers_easy)     # the number randomised by program on easy level
+# enemy_normal = get_one_answer(answers_normal)   # the number randomised by program on normal level
+# enemy_hard = get_one_answer(answers_hard)   # the number randomised by program on hard level
+
+#TAKE AND CHECK USER'S GUESSES
+def input_number(digits):
+    """Communicates with the user and gets the answer (user's guesses).
     Digits inside the number should not repeat themself, otherwise the program will ask for a new guess."""
     while True:
-        nums = input('Enter a number with 4 different digits:')
-        if len(nums) != 4 or not nums.isdigit():
+        nums = input(f"Enter a number with {digits} different digits:")
+        if len(nums) != digits or not all(c in "0123456789" for c in nums):
             print('The number is not valid.')
             continue
         nums = list(map(int, nums)) 
-        if len(set(nums)) == 4:
+        if len(set(nums)) == digits:
             break
     return nums
 
@@ -83,18 +114,18 @@ def input_number_normal():
 #             ans.append(list(map(int, tmp)))
 #     return ans
 
-def input_number_easy():
-    """Communicates with the user and gets the answer (user's guesses) of 3-digit number.
-    Digits inside the number should not repeat themself, otherwise the program will ask for a new guess."""
-    while True:
-        nums = input('Enter a number with 3 different digits:')
-        if len(nums) != 3 or not nums.isdigit():
-            print('The number is not valid.')
-            continue
-        nums = list(map(int, nums)) 
-        if len(set(nums)) == 3:
-            break
-    return nums
+# def input_number_easy():
+#     """Communicates with the user and gets the answer (user's guesses) of 3-digit number.
+#     Digits inside the number should not repeat themself, otherwise the program will ask for a new guess."""
+#     while True:
+#         nums = input('Enter a number with 3 different digits:')
+#         if len(nums) != 3 or not nums.isdigit():
+#             print('The number is not valid.')
+#             continue
+#         nums = list(map(int, nums))
+#         if len(set(nums)) == 3:
+#             break
+#     return nums
 
 # HARD LEVEL OF DIFFICULTY:
 # def get_all_answers_5():
@@ -107,24 +138,24 @@ def input_number_easy():
 #             ans.append(list(map(int, tmp)))
 #     return ans
 
-def input_number_hard():
-    """Communicates with the user and gets the answer (user's guesses) of 5-digit number.
-    Digits inside the number should not repeat themself, otherwise the program will ask for a new guess."""
-    while True:
-        nums = input('Enter a number with 5 different digits:')
-        if len(nums) != 5 or not nums.isdigit():
-            print('The number is not valid.')
-            continue
-        nums = list(map(int, nums)) 
-        if len(set(nums)) == 5:
-            break
-    return nums
+# def input_number_hard():
+#     """Communicates with the user and gets the answer (user's guesses) of 5-digit number.
+#     Digits inside the number should not repeat themself, otherwise the program will ask for a new guess."""
+#     while True:
+#         nums = input('Enter a number with 5 different digits:')
+#         if len(nums) != 5 or not nums.isdigit():
+#             print('The number is not valid.')
+#             continue
+#         nums = list(map(int, nums))
+#         if len(set(nums)) == 5:
+#             break
+#     return nums
 
 # OTHER FUNCTIONS:
-def get_one_answer(ans):
-    """Chooses one answer from the list of all possibilities created in get_all_answers functions."""
-    num = random.choice(ans)
-    return num
+# def get_one_answer(ans):
+#     """Chooses one answer from the list of all possibilities created in get_all_answers functions."""
+#     num = random.choice(ans)
+#     return num
 
 def check(nums, true_nums):
     """Compares two number and tells the user the amount of bulls and cows they have scored."""
@@ -180,24 +211,18 @@ def display_levels():
     print('|', ' '*2, "Hard", ' '*2, '|', "The number you need to guess contains 5 UNIQUE digits.", ' '*3, '|')
     print('+', '-'*10, '+', '-'*58, '+' )
 
-answers_easy = get_all_answers_3()    # all the possible answers for easy level
-answers_normal = get_all_answers_4()    # all the possible answers for normal level
-answers_hard = get_all_answers_5()  # all the possible answers for hard level
-# player = input_number()     #he number guessed by player
-enemy_easy = get_one_answer(answers_easy)     # the number randomised by program on easy level
-enemy_normal = get_one_answer(answers_normal)   # the number randomised by program on normal level
-enemy_hard = get_one_answer(answers_hard)   # the number randomised by program on hard level
 
 # START OF PLAYING:
-print("Welcome to the game 'Bulls and Cows'")
+print("Welcome to the game 'Bulls and Cows'!")
 time.sleep(1)
-user_name=input("Enter your name for personalized experience:")
+user_name=input("Enter your name for personalized experience: \n")
+user_name = user_name.title()
 
 # displaying of rules (optional)
 while True:
-    user_experience=input(f"Hello, {user_name}, are you familliar with the rules of 'Bulls and Cows'? Please, answer 'yes' or 'no': ") 
+    user_experience=input(f"Hello, {user_name}, are you familliar with the rules of 'Bulls and Cows'? Please, answer 'yes' or 'no': \n")
 # aim is to make rule explanation optional in case the user has already played this game before
-    user_experience=user_experience.lower()
+    user_experience = user_experience.lower()
     if user_experience not in ("yes", "no"):
         print("Please, enter 'Yes' or 'No'.")
         continue
@@ -227,14 +252,17 @@ time.sleep(1)
 
 # THE GAME ITSELF
 score=0
+computer_number = get_one_answer(get_level_answers(difficulty))
 while True:
     if difficulty=="easy":
-        print(f"{'='*15}{user_name}'s Turn{'='*15}")
-        time.sleep(2)
-        print("Guess a number generated by the computer.")
+        user_name=user_name.upper()
+        print(f"{'='*20}{user_name}'s Turn{'='*20}")
         time.sleep(1)
-        number = input_number_easy()
-        bulls, cows = check(number, enemy_easy)
+        print("Guess a number generated by the computer!")
+        time.sleep(1)
+        number = input_number(levels_dict[difficulty])
+        bulls, cows = check(number, computer_number)
+
 # printing score table
         if bulls!=0:
             score+=2
